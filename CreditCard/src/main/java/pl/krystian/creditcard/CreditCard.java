@@ -9,6 +9,7 @@ public class CreditCard {
     }
 
     public BigDecimal getBalance() {
-        return BigDecimal.valueOf(1000);
+//        return BigDecimal.valueOf(1000);
+        return creditLimit;
     }
 }
