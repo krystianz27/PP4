@@ -4,8 +4,15 @@ import java.math.BigDecimal;
 
 public class CreditCard {
     private BigDecimal creditLimit;
-
     private BigDecimal balance;
+
+
+    public BigDecimal getBalance() {return balance;}
+
+
+    private boolean isCreditBelowThreshold(BigDecimal creditLimit) {
+        return BigDecimal.valueOf(100).compareTo(creditLimit) > 0;
+    }
 
 
     public void assignCredit(BigDecimal creditLimit) {
@@ -13,20 +20,16 @@ public class CreditCard {
             throw new CreditCantBeReassignedException();
         }
 
-        if (isCreditBelowThreshold (creditLimit)){
+        if (isCreditBelowThreshold(creditLimit)){
             throw new CreditBelowThresholdException();
         }
         this.creditLimit = creditLimit;
+        this.balance = creditLimit;
     }
 
     private boolean isCreditAlreadyAssigned() {
         return this.creditLimit != null;
     }
-
-    private boolean isCreditBelowThreshold(BigDecimal creditLimit) {
-        return BigDecimal.valueOf(100).compareTo(creditLimit) > 0;
-    }
-    public BigDecimal getBalance() {return balance;}
 
 
     public void pay(BigDecimal money) {
@@ -34,10 +37,9 @@ public class CreditCard {
             throw new NotEnoughMoneyException();
         }
         this.balance = this.balance.subtract(money);
-
     }
 
     private boolean canAfford(BigDecimal money) {
-        return this.balance.subtract(money).compareTo(BigDecimal.ZERO) > 0;
+        return this.balance.subtract(money).compareTo(BigDecimal.ZERO) < 0;
     }
 }

@@ -23,11 +23,12 @@ public class CreditCardTest {
         //Act
         card.assignCredit(BigDecimal.valueOf(1500));
         //Assert
-        assert BigDecimal.valueOf(1500).equals(card.getBalance());
+//        assert BigDecimal.valueOf(1500).equals(card.getBalance());
+        assertEquals(BigDecimal.valueOf(1500), card.getBalance());
     }
 
     @Test
-    void itDenyCreditBelowThreshold() {
+    void itDenyCreditBelowThresholdV1() {
         CreditCard card = new CreditCard();
         try {
             card.assignCredit(BigDecimal.valueOf(50));
@@ -72,7 +73,7 @@ public class CreditCardTest {
     }
 
     @Test
-    void itDenyWhenNotStufficientFounds() {
+    void itDenyWhenNotSufficientFounds() {
         CreditCard card = new CreditCard();
         card.assignCredit(BigDecimal.valueOf(1000));
         card.pay(BigDecimal.valueOf(900));
@@ -80,6 +81,8 @@ public class CreditCardTest {
         assertThrows(
                 NotEnoughMoneyException.class,
                 () -> card.pay(BigDecimal.valueOf(200))
-        )
+        );
+
+        assertEquals(BigDecimal.valueOf(100), card.getBalance());
     }
 }
