@@ -1,4 +1,4 @@
-package pl.krystian.ecommerce;
+package pl.krystian.ecommerce.catalog;
 
 import java.math.BigDecimal;
 import java.util.*;

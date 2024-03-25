@@ -1,2 +1,10 @@
-package pl.krystian.ecommerce;public class AppTest {
+package pl.krystian.ecommerce;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+public class AppTest {
+
+    @Test
+    void contextLoads(){}
 }
