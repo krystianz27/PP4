@@ -1,9 +1,7 @@
-package pl.krystian.creditcard;
+package pl.krystian.ecommerce;
 
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-import pl.krystian.ecommerce.Product;
-import pl.krystian.ecommerce.ProductCatalog;
+
 import static org.assertj.core.api.Assertions.*;
 
 import java.math.BigDecimal;
@@ -11,23 +9,23 @@ import java.util.List;
 
 
 public class ProductCatalogTest {
+    private ProductCatalog createProductCatalog() {
+        return new ProductCatalog();
+    }
+
     @Test
     void itAllowsListingProducts() {
-        ProductCatalog catalog = thereIsProductCatalog();
+        ProductCatalog catalog = createProductCatalog();
 
         List<Product> products = catalog.allProducts();
 
         assert products.isEmpty();
     }
 
-    private ProductCatalog thereIsProductCatalog() {
-        return new ProductCatalog();
-    }
-
 
     @Test
     void itAllowsToAddProduct() {
-        ProductCatalog catalog = thereIsProductCatalog();
+        ProductCatalog catalog = createProductCatalog();
         catalog.addProduct("Legoset 8083", "nice one");
 
         List<Product> allProducts = catalog.allProducts();
@@ -37,8 +35,8 @@ public class ProductCatalogTest {
 
 
     @Test
-    void itLoadSingProductById() {
-        ProductCatalog catalog = thereIsProductCatalog();
+    void itLoadSingleProductById() {
+        ProductCatalog catalog = createProductCatalog();
 
         String id = catalog.addProduct("Legoset 8083", "nice one");
 
@@ -49,7 +47,7 @@ public class ProductCatalogTest {
 
     @Test
     void itAllowsToChangePrice() {
-        ProductCatalog catalog = thereIsProductCatalog();
+        ProductCatalog catalog = createProductCatalog();
         String id = catalog.addProduct("Legoset 8083", "nice one");
 
         catalog.changePrice(id, BigDecimal.valueOf(10.10));

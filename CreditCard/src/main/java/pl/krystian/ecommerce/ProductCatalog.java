@@ -21,17 +21,33 @@ public class ProductCatalog {
         products.add(newProduct);
 
         return id.toString();
+//        return newProduct.getId();
 
     }
 
     public Product getProductBy(String id) {
         return products.stream().filter(product -> product.getId().equals(id))
-                .findFirst().get();
+                .findFirst()
+                .get();
     }
 
     public void changePrice(String id, BigDecimal price) {
         Product loadedProduct = getProductBy(id);
         loadedProduct.changePrice(price);
+    }
+
+    public void publishProduct(String productId) {
+        Product product = getProductBy(productId);
+
+        if (product.getImage() == null) {
+            throw new ProductCantBePublishedException();
+        }
+
+        if (product.getPrice() == null) {
+            throw new ProductCantBePublishedException();
+        }
+
+        product.setOnline(true);
     }
 
 
