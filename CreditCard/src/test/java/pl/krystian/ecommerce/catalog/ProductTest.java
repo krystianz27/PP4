@@ -1,6 +1,7 @@
 package pl.krystian.ecommerce;
 
 import org.junit.jupiter.api.Test;
+import pl.krystian.ecommerce.catalog.Product;
 
 import java.util.UUID;
 

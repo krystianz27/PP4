@@ -1,6 +1,8 @@
 package pl.krystian.ecommerce;
 
 import org.junit.jupiter.api.Test;
+import pl.krystian.ecommerce.catalog.Product;
+import pl.krystian.ecommerce.catalog.ProductCatalog;
 
 import static org.assertj.core.api.Assertions.*;
 
