@@ -14,6 +14,10 @@ public class CreditCard {
         return BigDecimal.valueOf(100).compareTo(creditLimit) > 0;
     }
 
+    private boolean isCreditAlreadyAssigned() {
+        return this.creditLimit != null;
+    }
+
 
     public void assignCredit(BigDecimal creditLimit) {
         if(isCreditAlreadyAssigned()) {
@@ -25,10 +29,6 @@ public class CreditCard {
         }
         this.creditLimit = creditLimit;
         this.balance = creditLimit;
-    }
-
-    private boolean isCreditAlreadyAssigned() {
-        return this.creditLimit != null;
     }
 
 
