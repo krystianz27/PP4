@@ -1,8 +1,8 @@
 package pl.krystian.ecommerce.catalog;
 
 import org.junit.jupiter.api.Test;
-import pl.krystian.ecommerce.catalog.Product;
-import pl.krystian.ecommerce.catalog.ProductCatalog;
+//import pl.krystian.ecommerce.catalog.Product;
+//import pl.krystian.ecommerce.catalog.ProductCatalog;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -12,7 +12,7 @@ import java.util.List;
 
 public class ProductCatalogTest {
     private ProductCatalog createProductCatalog() {
-        return new ProductCatalog();
+        return new ProductCatalog(new HashMapProductStorage());
     }
 
     @Test

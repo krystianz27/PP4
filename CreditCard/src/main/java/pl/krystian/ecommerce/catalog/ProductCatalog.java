@@ -3,7 +3,7 @@ package pl.krystian.ecommerce.catalog;
 import java.math.BigDecimal;
 import java.util.*;
 
-public class ProductCatalog {
+public class ProductCatalog{
     ProductStorage productStorage;
 
     public ProductCatalog(ProductStorage productStorage) {
@@ -20,17 +20,16 @@ public class ProductCatalog {
         Product newProduct = new Product(id, name, description);
         productStorage.add(newProduct);
 
-        return id.toString();
-//        return newProduct.getId();
+        return newProduct.getId();
     }
 
     public Product getProductBy(String id) {
         return productStorage.getProductBy(id);
     }
 
-    public void changePrice(String id, BigDecimal price) {
-        Product loadedProduct = getProductBy(id);
-        loadedProduct.changePrice(price);
+    public void changePrice(String id, BigDecimal newPrice) {
+        Product loadedProduct = this.getProductBy(id);
+        loadedProduct.changePrice(newPrice);
     }
 
     public void publishProduct(String productId) {
