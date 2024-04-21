@@ -7,6 +7,13 @@ import java.util.List;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 public class HashMapStorageStorageTest {
+    private ProductStorage thereIsHashMapStorage() {
+        return new HashMapProductStorage();
+    }
+
+    private Product thereIsExampleProduct() {
+        return new Product(UUID.randomUUID(), "Test", "desc");
+    }
     @Test
     void itAllowsToStoreProduct(){
         Product product = thereIsExampleProduct();
@@ -18,16 +25,9 @@ public class HashMapStorageStorageTest {
         assertThat(products)
                 .hasSize(1)
                 .extracting(Product::getName)
-                .contains("test-it");
+                .contains("Test");
     }
 
-    private ProductStorage thereIsHashMapStorage() {
-        return null;
-    }
-
-    private Product thereIsExampleProduct() {
-        return null;
-    }
 
     @Test
     void itAllowsToLoadAllProduct(){}

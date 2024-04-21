@@ -13,7 +13,7 @@ public class JdbcPlayGroundTest {
     @Test
     void selectMyNameViaDB() {
         var name = jdbcTemplate.queryForObject(
-                "select now() 'my_date",
+                "select now() my_date",
                 String.class
         );
         assert  name.contains("2024");
