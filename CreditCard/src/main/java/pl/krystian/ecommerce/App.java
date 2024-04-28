@@ -1,10 +1,12 @@
 package pl.krystian.ecommerce;
-import pl.krystian.ecommerce.catalog.*;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import pl.krystian.ecommerce.catalog.ArrayListProductStorage;
+import pl.krystian.ecommerce.catalog.ProductCatalog;
 
-//import java.util.List;
+import java.math.BigDecimal;
 
 
 @SpringBootApplication
@@ -14,13 +16,15 @@ public class App {
     }
 
     @Bean
-    ProductCatalog createMyProductCatalog(){
-//        ProductCatalog productCatalog = new ProductCatalog(new HashMapProductStorage());
-        ProductCatalog productCatalog = new ProductCatalog(new ArrayListProductStorage());
+    ProductCatalog createCatalog(){
+        ProductCatalog catalog = new ProductCatalog(new ArrayListProductStorage());
 
-        productCatalog.addProduct("Legoset 1","Desc1");
-        productCatalog.addProduct("Legoset 2","Desc2");
-        return productCatalog;
+        var pid1 = catalog.addProduct("Legoset 1","Desc1");
+        catalog.changePrice(pid1, BigDecimal.valueOf(100.10));
 
+        var pid2 = catalog.addProduct("Legoset 2","Desc2");
+        catalog.changePrice(pid2, BigDecimal.valueOf(50.10));
+
+        return catalog;
     }
 }

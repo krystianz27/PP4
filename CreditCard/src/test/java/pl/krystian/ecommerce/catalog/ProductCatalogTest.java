@@ -1,8 +1,6 @@
 package pl.krystian.ecommerce.catalog;
 
 import org.junit.jupiter.api.Test;
-//import pl.krystian.ecommerce.catalog.Product;
-//import pl.krystian.ecommerce.catalog.ProductCatalog;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -11,13 +9,13 @@ import java.util.List;
 
 
 public class ProductCatalogTest {
-    private ProductCatalog createProductCatalog() {
-        return new ProductCatalog(new HashMapProductStorage());
+    private static ProductCatalog thereIsProductCatalog() {
+        return new ProductCatalog(new ArrayListProductStorage());
     }
 
     @Test
-    void itAllowsListingProducts() {
-        ProductCatalog catalog = createProductCatalog();
+    void itListAvailableProducts() {
+        ProductCatalog catalog = thereIsProductCatalog();
 
         List<Product> products = catalog.allProducts();
 
@@ -27,35 +25,33 @@ public class ProductCatalogTest {
 
     @Test
     void itAllowsToAddProduct() {
-        ProductCatalog catalog = createProductCatalog();
-        catalog.addProduct("Legoset 8083", "nice one");
+        ProductCatalog catalog = thereIsProductCatalog();
 
-        List<Product> allProducts = catalog.allProducts();
-        assertThat(allProducts).hasSize(1);
+        catalog.addProduct("Lego set 8083", "Some description");
+        List<Product> products = catalog.allProducts();
 
+        assertThat(products)
+                .hasSize(1);
     }
 
-
     @Test
-    void itLoadSingleProductById() {
-        ProductCatalog catalog = createProductCatalog();
-
-        String id = catalog.addProduct("Legoset 8083", "nice one");
+    void itLoadsSingleProductById() {
+        ProductCatalog catalog = thereIsProductCatalog();
+        String id = catalog.addProduct("Lego set 8083", "Nice one");
 
         Product loaded = catalog.getProductBy(id);
-        assertThat(loaded.getId()).isEqualTo(id);
+
+        assertThat(id).isEqualTo(loaded.getId());
     }
 
-
     @Test
-    void itAllowsToChangePrice() {
-        ProductCatalog catalog = createProductCatalog();
-        String id = catalog.addProduct("Legoset 8083", "nice one");
+    void itAllowsChangePrice() {
+        ProductCatalog catalog = thereIsProductCatalog();
+        String id = catalog.addProduct("Lego set 8083", "Nice one");
 
         catalog.changePrice(id, BigDecimal.valueOf(10.10));
-
         Product loaded = catalog.getProductBy(id);
 
-        assertThat(loaded.getPrice()).isEqualTo(BigDecimal.valueOf(10.10));
+        assertThat(BigDecimal.valueOf(10.10)).isEqualTo(loaded.getPrice());
     }
 }

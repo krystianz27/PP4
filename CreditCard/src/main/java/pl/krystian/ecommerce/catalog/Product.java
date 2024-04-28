@@ -34,7 +34,7 @@ public class Product {
     }
 
     public void changePrice(BigDecimal newPrice) {
-        price = newPrice;
+        this.price = newPrice;
     }
 
     public String getDescription() {
@@ -46,7 +46,7 @@ public class Product {
     }
 
     public void setImage(String imageKey) {
-        image = imageKey;
+        this.image = imageKey;
     }
 
     public boolean getOnline() {

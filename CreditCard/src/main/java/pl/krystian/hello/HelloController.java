@@ -1,4 +1,4 @@
-package pl.krystian.ecommerce.hello;
+package pl.krystian.hello;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
