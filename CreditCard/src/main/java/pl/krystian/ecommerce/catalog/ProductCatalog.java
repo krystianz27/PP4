@@ -29,6 +29,7 @@ public class ProductCatalog{
 
     public void changePrice(String id, BigDecimal newPrice) {
         Product loadedProduct = this.getProductBy(id);
+
         loadedProduct.changePrice(newPrice);
     }
 

@@ -1,4 +1,6 @@
 package pl.krystian.ecommerce.catalog;
+import pl.krystian.ecommerce.catalog.ProductCatalog;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
