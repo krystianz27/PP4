@@ -4,6 +4,10 @@ getProducts = () => {
         .catch((error) => console.log(error))
 };
 
+const getCurrentOffer = () =>
+return fetch("api/current-offer")
+.then(respoonse =>)
+
 createProductHtmlEl = (productData) => {
 const template = `
     <div>
