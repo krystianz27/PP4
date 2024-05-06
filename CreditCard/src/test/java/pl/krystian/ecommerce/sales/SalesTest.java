@@ -17,6 +17,10 @@ public class SalesTest {
         return new SalesFacade();
     }
 
+    private String thereIsExampleCustomer(String name) {
+        return name;
+    }
+
     @Test
     void itShowsCurrentOffer() {
         SalesFacade sales = thereIsSalesFacade();
@@ -28,9 +32,6 @@ public class SalesTest {
         assertEquals(BigDecimal.ZERO,offer.getTotal());
     }
 
-    private String thereIsExampleCustomer(String name) {
-        return name;
-    }
 
     @Test
     void itRemoveProductFromCart() {
