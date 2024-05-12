@@ -8,11 +8,6 @@ import java.util.UUID;
 
 public class SalesTest {
 
-    @Test
-    void itAddProductToCart() {
-        SalesFacade sales = thereIsSalesFacade();
-    }
-
     private SalesFacade thereIsSalesFacade() {
         return new SalesFacade();
     }
@@ -20,6 +15,12 @@ public class SalesTest {
     private String thereIsExampleCustomer(String name) {
         return name;
     }
+
+    @Test
+    void itAddProductToCart() {
+        SalesFacade sales = thereIsSalesFacade();
+    }
+
 
     @Test
     void itShowsCurrentOffer() {

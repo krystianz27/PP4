@@ -4,9 +4,10 @@ getProducts = () => {
         .catch((error) => console.log(error))
 };
 
-const getCurrentOffer = () =>
-return fetch("api/current-offer")
-.then(respoonse =>)
+const getCurrentOffer = () => {
+    return fetch("api/current-offer")
+        .then(response => response.json())
+};
 
 createProductHtmlEl = (productData) => {
 const template = `
@@ -18,6 +19,7 @@ const template = `
         <button data-id="${productData.id}">Add to cart</button>
     </div>
     `;
+
     const newEl = document.createElement("div");
     newEl.innerHTML = template;
     return newEl
