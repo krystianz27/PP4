@@ -18,9 +18,59 @@ public class SalesTest {
 
     @Test
     void itAddProductToCart() {
+        var customerId = thereIsExampleCustomer("Krystian");
+        var productId = thereIsProduct("product a", BigDecimal.valueOf(10));
         SalesFacade sales = thereIsSalesFacade();
+        //ACT
+        sales.addToCart(customerId, productId);
+
+        //ASERT
+        Offer currentOffer = sales.getCurrentOffer(customerId);
+        assertEquals(BigDecimal.valueOf(10), currentOffer.getTotal());
     }
 
+    private String thereIsProduct(String name, BigDecimal price) {
+        return name;
+    }
+
+    @Test
+    void itAddMultipleProductsToCart() {
+        var customerId = thereIsExampleCustomer("Krystian");
+        var productA = thereIsProduct("product a", BigDecimal.valueOf(10));
+        var productB= thereIsProduct("product b", BigDecimal.valueOf(20));
+        SalesFacade sales = thereIsSalesFacade();
+
+        //ACT
+        sales.addToCart(customerId, productA);
+        sales.addToCart(customerId, productB);
+
+        //ASERT
+        Offer currentOffer = sales.getCurrentOffer(customerId);
+        assertEquals(BigDecimal.valueOf(30), currentOffer.getTotal());
+    }
+
+
+    @Test
+    void itDoesNotShareCustomersCarts() {
+        var customerA = thereIsExampleCustomer("Krystian");
+        var customerB = thereIsExampleCustomer("Michal");
+        var productA = thereIsProduct("product a", BigDecimal.valueOf(10));
+        var productB= thereIsProduct("product b", BigDecimal.valueOf(20));
+        SalesFacade sales = thereIsSalesFacade();
+
+        //ACT
+        sales.addToCart(customerA, productA);
+        sales.addToCart(customerB, productB);
+
+        //ASERT
+        Offer currentOfferA = sales.getCurrentOffer(customerA);
+        assertEquals(BigDecimal.valueOf(30), currentOfferA.getTotal());
+
+        Offer currentOfferB = sales.getCurrentOffer(customerA);
+        assertEquals(BigDecimal.valueOf(30), currentOfferB.getTotal());
+
+
+    }
 
     @Test
     void itShowsCurrentOffer() {
