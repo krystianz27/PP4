@@ -1,4 +1,4 @@
-getProducts = () => {
+const getProducts = () => {
     return fetch("/api/products")
         .then(r => r.json())
         .catch((error) => console.log(error))

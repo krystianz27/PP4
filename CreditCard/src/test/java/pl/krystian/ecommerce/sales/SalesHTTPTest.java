@@ -18,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class SalesHTTPTest {
     @Autowired
     TestRestTemplate http;
+
     @LocalServerPort
     private int port;
 
@@ -32,25 +33,34 @@ public class SalesHTTPTest {
         //ACT
         //add product to cart
         String addProductToCartURL = String.format(
-                "/http:localhost:%s/%s/%s",
+                "http://localhost:%s/%s/%s",
                 port,
-                "/api/add-to-cart",
+                "api/add-to-cart",
                 productId
         );
 
         ResponseEntity<Object> addProductResponse = http.postForEntity(
                 addProductToCartURL, null, Object.class);
+
+
+        // Get current offer
+        String getCurrentOfferUrl = String.format("http://localhost:%s/api/current-offer", port);
+        ResponseEntity<Offer> currentOfferResponse = http.getForEntity(getCurrentOfferUrl, Offer.class);
+        Offer currentOffer = currentOfferResponse.getBody();
+
+
+
         // accept offer
         String acceptOfferUrl = String.format(
-                "/http:localhost:%s/%s",
+                "http://localhost:%s/%s",
                 port,
-                "/api/accept-offer"
+                "api/accept-offer"
         );
 
         AcceptOfferRequest acceptOfferRequest = new AcceptOfferRequest();
         acceptOfferRequest
                 .setFirstName("Krystian")
-                .setLastName("Zdziebko")
+                .setLastName("Z")
                 .setEmail("krystian@example.com");
 
 
@@ -58,11 +68,10 @@ public class SalesHTTPTest {
                 http.postForEntity(acceptOfferUrl, acceptOfferRequest, ReservationDetail.class);
 
 //        assertThat(reservationDetailResponseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertEquals(reservationDetailResponseEntity.getStatusCode(), HttpStatus.OK);
+        assertEquals(HttpStatus.OK, reservationDetailResponseEntity.getStatusCode());
         assertNotNull(reservationDetailResponseEntity.getBody().getReservationId());
         assertNotNull(reservationDetailResponseEntity.getBody().getPaymentUrl());
-        assertEquals(BigDecimal.valueOf(10.10), reservationDetailResponseEntity.getBody().getTotal());
-
+        assertEquals(currentOffer.getTotal(), reservationDetailResponseEntity.getBody().getTotal());
 
         //Arrange
         //-> reservationWithIdExist

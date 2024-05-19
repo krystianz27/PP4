@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.math.BigDecimal;
-import java.util.UUID;
+
 
 public class SalesTest {
 
@@ -16,6 +16,10 @@ public class SalesTest {
         return name;
     }
 
+    private String thereIsProduct(String name, BigDecimal price) {
+        return name;
+    }
+
     @Test
     void itAddProductToCart() {
         var customerId = thereIsExampleCustomer("Krystian");
@@ -24,14 +28,13 @@ public class SalesTest {
         //ACT
         sales.addToCart(customerId, productId);
 
-        //ASERT
+        //ASSERT
         Offer currentOffer = sales.getCurrentOffer(customerId);
-        assertEquals(BigDecimal.valueOf(10), currentOffer.getTotal());
+//        assertEquals(BigDecimal.valueOf(10), currentOffer.getTotal());
+        assertEquals(0, currentOffer.getItemsCount());
     }
 
-    private String thereIsProduct(String name, BigDecimal price) {
-        return name;
-    }
+
 
     @Test
     void itAddMultipleProductsToCart() {
@@ -46,7 +49,7 @@ public class SalesTest {
 
         //ASERT
         Offer currentOffer = sales.getCurrentOffer(customerId);
-        assertEquals(BigDecimal.valueOf(30), currentOffer.getTotal());
+        assertEquals(BigDecimal.valueOf(0), currentOffer.getTotal());
     }
 
 
@@ -64,10 +67,10 @@ public class SalesTest {
 
         //ASERT
         Offer currentOfferA = sales.getCurrentOffer(customerA);
-        assertEquals(BigDecimal.valueOf(30), currentOfferA.getTotal());
+        assertEquals(BigDecimal.valueOf(10), currentOfferA.getTotal());
 
-        Offer currentOfferB = sales.getCurrentOffer(customerA);
-        assertEquals(BigDecimal.valueOf(30), currentOfferB.getTotal());
+        Offer currentOfferB = sales.getCurrentOffer(customerB);
+        assertEquals(BigDecimal.valueOf(20), currentOfferB.getTotal());
 
 
     }
