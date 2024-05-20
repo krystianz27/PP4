@@ -1,4 +1,4 @@
-package pl.krystian.ecommerce.sales;
+package pl.krystian.ecommerce.sales.offering;
 
 public class AcceptOfferRequest {
     String firstName;

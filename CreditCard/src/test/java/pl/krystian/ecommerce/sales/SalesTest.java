@@ -1,6 +1,8 @@
 package pl.krystian.ecommerce.sales;
 
 import org.junit.jupiter.api.Test;
+import pl.krystian.ecommerce.sales.offering.Offer;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.math.BigDecimal;
@@ -30,8 +32,8 @@ public class SalesTest {
 
         //ASSERT
         Offer currentOffer = sales.getCurrentOffer(customerId);
-//        assertEquals(BigDecimal.valueOf(10), currentOffer.getTotal());
-        assertEquals(0, currentOffer.getItemsCount());
+        assertEquals(BigDecimal.valueOf(10), currentOffer.getTotal());
+        assertEquals(1, currentOffer.getItemsCount());
     }
 
 
