@@ -6,6 +6,8 @@ import org.springframework.context.annotation.Bean;
 import pl.krystian.ecommerce.catalog.ArrayListProductStorage;
 import pl.krystian.ecommerce.catalog.ProductCatalog;
 import pl.krystian.ecommerce.sales.SalesFacade;
+import pl.krystian.ecommerce.sales.cart.InMemoryCartStorage;
+import pl.krystian.ecommerce.sales.offering.OfferCalculator;
 
 import java.math.BigDecimal;
 
@@ -31,6 +33,8 @@ public class App {
 
     @Bean
     SalesFacade createMySalesFacade() {
-        return  new SalesFacade();
+        InMemoryCartStorage cartStorage = new InMemoryCartStorage();
+        OfferCalculator offerCalculator = new OfferCalculator();
+        return  new SalesFacade(cartStorage, offerCalculator);
     }
 }

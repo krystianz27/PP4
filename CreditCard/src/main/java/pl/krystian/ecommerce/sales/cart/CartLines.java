@@ -9,15 +9,10 @@ public class CartLines {
         this.productId = productId;
         this.qty = qty;
     }
-    public Integer getQty() {
-        return qty;
-    }
 
     public String getProductId() {
         return productId;
     }
-
-
 
     public Integer getQuantity() {
         return qty;

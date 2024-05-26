@@ -11,9 +11,7 @@ public class SalesFacade {
     private InMemoryCartStorage cartStorage;
     private OfferCalculator offerCalculator;
 
-    public SalesFacade(
-            InMemoryCartStorage,
-            OfferCalculator) {
+    public SalesFacade(InMemoryCartStorage cartStorage, OfferCalculator offerCalculator) {
         this.cartStorage = cartStorage;
         this.offerCalculator = offerCalculator;
     }

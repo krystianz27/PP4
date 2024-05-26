@@ -24,7 +24,6 @@ public class Cart {
         else {
             increaseQuantity(productId);
         }
-
     }
 
     private void increaseQuantity(String productId) {
