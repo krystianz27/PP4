@@ -5,9 +5,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import pl.krystian.ecommerce.catalog.ArrayListProductStorage;
 import pl.krystian.ecommerce.catalog.ProductCatalog;
+import pl.krystian.ecommerce.infrastructure.PayUPaymentGw;
 import pl.krystian.ecommerce.sales.SalesFacade;
-import pl.krystian.ecommerce.sales.cart.InMemoryCartStorage;
+import pl.krystian.ecommerce.sales.cart.HashMapCartStorage;
 import pl.krystian.ecommerce.sales.offering.OfferCalculator;
+import pl.krystian.ecommerce.sales.reservation.CartStorage;
+import pl.krystian.ecommerce.sales.reservation.ReservationRepository;
 
 import java.math.BigDecimal;
 
@@ -33,8 +36,14 @@ public class App {
 
     @Bean
     SalesFacade createMySalesFacade() {
-        InMemoryCartStorage cartStorage = new InMemoryCartStorage();
-        OfferCalculator offerCalculator = new OfferCalculator();
-        return  new SalesFacade(cartStorage, offerCalculator);
+//        InMemoryCartStorage cartStorage = new InMemoryCartStorage();
+//        OfferCalculator offerCalculator = new OfferCalculator();
+//        return  new SalesFacade(cartStorage, offerCalculator);
+        return new SalesFacade(
+                new HashMapCartStorage(),
+                new OfferCalculator(),
+                new PayUPaymentGw(),
+                new ReservationRepository()
+    );
     }
 }

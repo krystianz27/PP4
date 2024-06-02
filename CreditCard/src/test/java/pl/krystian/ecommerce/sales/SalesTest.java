@@ -1,106 +1,72 @@
 package pl.krystian.ecommerce.sales;
 
 import org.junit.jupiter.api.Test;
+import pl.krystian.ecommerce.sales.cart.HashMapCartStorage;
 import pl.krystian.ecommerce.sales.offering.Offer;
+import pl.krystian.ecommerce.sales.offering.OfferCalculator;
+import pl.krystian.ecommerce.sales.reservation.CartStorage;
+import pl.krystian.ecommerce.sales.reservation.ReservationRepository;
+import pl.krystian.ecommerce.sales.reservation.SpyPaymentGateway;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import java.math.BigDecimal;
 
 
 public class SalesTest {
 
-    private SalesFacade thereIsSalesFacade() {
-        return new SalesFacade();
+    private SalesFacade thereIsSales() {
+        return new SalesFacade(
+                new HashMapCartStorage(),
+                new OfferCalculator(),
+                new SpyPaymentGateway(),
+                new ReservationRepository()
+        );
     }
 
-    private String thereIsExampleCustomer(String name) {
+    private String thereIsCustomer(String name) {
         return name;
     }
 
-    private String thereIsProduct(String name, BigDecimal price) {
+    private String thereIsExampleProduct(String name, BigDecimal price) {
         return name;
     }
 
-    @Test
-    void itAddProductToCart() {
-        var customerId = thereIsExampleCustomer("Krystian");
-        var productId = thereIsProduct("product a", BigDecimal.valueOf(10));
-        SalesFacade sales = thereIsSalesFacade();
-        //ACT
-        sales.addToCart(customerId, productId);
-
-        //ASSERT
-        Offer currentOffer = sales.getCurrentOffer(customerId);
-        assertEquals(BigDecimal.valueOf(10), currentOffer.getTotal());
-        assertEquals(1, currentOffer.getItemsCount());
-    }
-
-
-
-    @Test
-    void itAddMultipleProductsToCart() {
-        var customerId = thereIsExampleCustomer("Krystian");
-        var productA = thereIsProduct("product a", BigDecimal.valueOf(10));
-        var productB= thereIsProduct("product b", BigDecimal.valueOf(20));
-        SalesFacade sales = thereIsSalesFacade();
-
-        //ACT
-        sales.addToCart(customerId, productA);
-        sales.addToCart(customerId, productB);
-
-        //ASERT
-        Offer currentOffer = sales.getCurrentOffer(customerId);
-        assertEquals(BigDecimal.valueOf(0), currentOffer.getTotal());
-    }
-
-
-    @Test
-    void itDoesNotShareCustomersCarts() {
-        var customerA = thereIsExampleCustomer("Krystian");
-        var customerB = thereIsExampleCustomer("Michal");
-        var productA = thereIsProduct("product a", BigDecimal.valueOf(10));
-        var productB= thereIsProduct("product b", BigDecimal.valueOf(20));
-        SalesFacade sales = thereIsSalesFacade();
-
-        //ACT
-        sales.addToCart(customerA, productA);
-        sales.addToCart(customerB, productB);
-
-        //ASERT
-        Offer currentOfferA = sales.getCurrentOffer(customerA);
-        assertEquals(BigDecimal.valueOf(10), currentOfferA.getTotal());
-
-        Offer currentOfferB = sales.getCurrentOffer(customerB);
-        assertEquals(BigDecimal.valueOf(20), currentOfferB.getTotal());
-
-
-    }
 
     @Test
     void itShowsCurrentOffer() {
-        SalesFacade sales = thereIsSalesFacade();
-        var customerId = thereIsExampleCustomer("Krystian");
+        String customerId = thereIsCustomer("Kuba");
+        SalesFacade sales = thereIsSales();
 
         Offer offer = sales.getCurrentOffer(customerId);
 
-        assertEquals(0,offer.getItemsCount());
-        assertEquals(BigDecimal.ZERO,offer.getTotal());
+        assertThat(offer.getTotal()).isEqualTo(BigDecimal.ZERO);
+        assertThat(offer.getItemsCount()).isEqualTo(0);
+    }
+
+    @Test
+    void itAddsProductToCart() {
+        String productId = thereIsExampleProduct("X", BigDecimal.valueOf(10));
+        String customerId = thereIsCustomer("Kuba");
+        SalesFacade sales = thereIsSales();
+
+        sales.addProduct(customerId, productId);
+
+        Offer offer = sales.getCurrentOffer(customerId);
+
+        assertThat(offer.getTotal()).isEqualTo(BigDecimal.valueOf(10));
+        assertThat(offer.getItemsCount()).isEqualTo(1);
     }
 
 
     @Test
-    void itRemoveProductFromCart() {
+    void itAcceptCustomersCurrentOffer() {
 
     }
 
     @Test
-    void itAllowToAcceptOffer() {
+    void itConfirmPayment() {
 
     }
 
-    @Test
-    void itAllowToPayForReservation() {
-
-    }
 }

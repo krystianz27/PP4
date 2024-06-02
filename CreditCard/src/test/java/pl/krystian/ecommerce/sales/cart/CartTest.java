@@ -3,9 +3,7 @@ package pl.krystian.ecommerce.sales.cart;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
-import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.assertj.core.api.Assertions.*;
 
 public class CartTest {
@@ -30,92 +28,66 @@ public class CartTest {
         String productId = thereIsProduct(PRODUCT_1);
 
 
-        cart.addProduct(productId);
+        cart.add(productId);
         assertThat(cart.isEmpty()).isFalse();
     }
 
 
     @Test
-    void itExposeProductsCountV2() {
+    void itExposeProductsCount() {
         Cart cart = Cart.empty();
         String productId1 = thereIsProduct(PRODUCT_1);
         String productId2 = thereIsProduct(PRODUCT_2);
 
-        cart.addProduct(productId1);
-        cart.addProduct(productId2);
+        cart.add(productId1);
+        cart.add(productId2);
 
-        assertThat(cart.getProductsCount()).isEqualTo(2);
-
-    }
-
-
-    @Test
-    void itExposeProductsCountV1() {
-        Cart cart = Cart.empty();
-        String productId = thereIsProduct(PRODUCT_1);
-
-        cart.addProduct(productId);
-
-        assertThat(cart.getProductsCount()).isEqualTo(1);
+        assertThat(cart.getItemsCount()).isEqualTo(2);
 
     }
 
 
     @Test
-    void itExposeProductsCountV3() {
+    public void itShowsSingleLineWhenSameProductsAddedTwice() {
+        //Arrange
         Cart cart = Cart.empty();
-        String productId = thereIsProduct(PRODUCT_1);
+        String product1 = thereIsProduct(PRODUCT_1);
+        //Act
+        cart.add(product1);
+        cart.add(product1);
 
-        cart.addProduct(productId);
-        cart.addProduct(productId);
+        //Assert
+        assertThat(cart.getItemsCount())
+                .isEqualTo(1);
 
-        assertThat(cart.getProductsCount()).isEqualTo(2);
-
+        assertCartContainsProductWithQuantity(cart, product1, 2);
     }
-
 
     @Test
-    void itExposeCollectedItems() {
+    public void itStoreQuantityOfMultipleProducts() {
+        //Arrange
         Cart cart = Cart.empty();
-        String productId = thereIsProduct(PRODUCT_1);
+        String product1 = thereIsProduct(PRODUCT_1);
+        String product2 = thereIsProduct(PRODUCT_2);
+        //Act
+        cart.add(product1);
+        cart.add(product1);
+        cart.add(product2);
 
-        cart.addProduct(productId);
+        //Assert
+        assertThat(cart.getItemsCount()).isEqualTo(2);
 
-        List<CartLines> lines = cart.getLines();
-
-        assertThat(lines)
-                .hasSize(1)
-                .extracting("productId")
-                .contains(PRODUCT_1);
-
-        assertCartContainsProductQuantity(lines, PRODUCT_2, 1);
+        assertCartContainsProductWithQuantity(cart, product1, 2);
+        assertCartContainsProductWithQuantity(cart, product2, 1);
     }
 
-    private void assertCartContainsProductQuantity(List<CartLines> lines, String productId, int expectedQty) {
-        assertThat(lines)
-                .filteredOn(cartLines -> cartLines.getProductId().equals(productId))
-                .extracting(cartLines -> cartLines.getQuantity())
+
+    private void assertCartContainsProductWithQuantity(Cart cart, String product1, int expectedQuantity) {
+        assertThat(cart.getCartItems())
+                .filteredOn(cartItem -> cartItem.getProductId().equals(product1))
+                .extracting(CartItem::getQuantity)
                 .first()
-                .isEqualTo(expectedQty);
-    }
-
-
-    @Test
-    void itExposeCollectedItemsWithQuantity() {
-        Cart cart = Cart.empty();
-        String productId1 = thereIsProduct(PRODUCT_1);
-        String productId2 = thereIsProduct(PRODUCT_2);
-
-        cart.addProduct(productId1);
-        cart.addProduct(productId1);
-        cart.addProduct(productId1);
-
-        cart.addProduct(productId2);
-
-        List<CartLines> lines = cart.getLines();
-
-
-        assertCartContainsProductQuantity(lines, PRODUCT_1, 3);
-        assertCartContainsProductQuantity(lines, PRODUCT_2, 1);
+                .isEqualTo(expectedQuantity)
+        ;
     }
 }

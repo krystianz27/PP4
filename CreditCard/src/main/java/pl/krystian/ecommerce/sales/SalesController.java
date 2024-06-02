@@ -1,41 +1,36 @@
 package pl.krystian.ecommerce.sales;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
-import pl.krystian.ecommerce.sales.offering.AcceptOfferRequest;
+import org.springframework.web.bind.annotation.*;
+import pl.krystian.ecommerce.sales.reservation.AcceptOfferRequest;
 import pl.krystian.ecommerce.sales.offering.Offer;
-import pl.krystian.ecommerce.sales.reservation.ReservationDetail;
+import pl.krystian.ecommerce.sales.reservation.ReservationDetails;
 
 @RestController
 public class SalesController {
-    SalesFacade salesFacade;
+    SalesFacade sales;
 
-    public SalesController(SalesFacade salesFacade) {
-        this.salesFacade = salesFacade;
-    }
-
-    @PostMapping("/api/add-to-cart/{productId}")
-    void addToCart(@PathVariable String productId) {
-        String customerId = getCurrentCustomerId();
-        salesFacade.addToCart(customerId, productId);
+    public SalesController(SalesFacade sales) {
+        this.sales = sales;
     }
 
     @GetMapping("/api/current-offer")
     Offer getCurrentOffer() {
         String customerId = getCurrentCustomerId();
-        return salesFacade.getCurrentOffer(customerId);
+        return sales.getCurrentOffer(customerId);
+    }
+
+
+    @PostMapping("/api/add-to-cart/{productId}")
+    void addProduct(@PathVariable(name = "productId") String productId) {
+        var customerId = getCurrentCustomerId();
+        sales.addProduct(customerId, productId);
     }
 
 
     @PostMapping("/api/accept-offer")
-    ReservationDetail acceptOffer(AcceptOfferRequest acceptOfferRequest) {
-        String customerId = getCurrentCustomerId();
-        ReservationDetail reservationDetail =
-            salesFacade.acceptOffer(customerId, acceptOfferRequest);
-
-        return reservationDetail;
+    ReservationDetails acceptOffer(@RequestBody AcceptOfferRequest acceptOfferRequest) {
+        var customerId = getCurrentCustomerId();
+        return sales.acceptOffer(customerId, acceptOfferRequest);
     }
 
     private String getCurrentCustomerId() {
