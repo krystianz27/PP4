@@ -2,6 +2,7 @@ package pl.krystian.ecommerce.sales;
 
 import pl.krystian.ecommerce.sales.cart.Cart;
 import pl.krystian.ecommerce.sales.cart.HashMapCartStorage;
+import pl.krystian.ecommerce.sales.cart.InMemoryCartStorage;
 import pl.krystian.ecommerce.sales.reservation.AcceptOfferRequest;
 import pl.krystian.ecommerce.sales.offering.Offer;
 import pl.krystian.ecommerce.sales.offering.OfferCalculator;
@@ -16,12 +17,12 @@ import java.util.UUID;
 
 
 public class SalesFacade {
-    private HashMapCartStorage cartStorage;
+    private InMemoryCartStorage cartStorage;
     private OfferCalculator offerCalculator;
     private PaymentGateway paymentGateway;
     private ReservationRepository reservationRepository;
 
-    public SalesFacade(HashMapCartStorage cartStorage, OfferCalculator offerCalculator,
+    public SalesFacade(InMemoryCartStorage cartStorage, OfferCalculator offerCalculator,
                        PaymentGateway paymentGateway, ReservationRepository reservationRepository) {
         this.cartStorage = cartStorage;
         this.offerCalculator = offerCalculator;
@@ -48,6 +49,7 @@ public class SalesFacade {
                 .orElse(Cart.empty());
 
         cart.add(productId);
+        cartStorage.save(customerId, cart);
     }
 
     public ReservationDetails acceptOffer(String customerId, AcceptOfferRequest acceptOfferRequest) {

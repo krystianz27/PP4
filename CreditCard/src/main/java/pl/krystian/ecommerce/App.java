@@ -8,6 +8,7 @@ import pl.krystian.ecommerce.catalog.ProductCatalog;
 import pl.krystian.ecommerce.infrastructure.PayUPaymentGw;
 import pl.krystian.ecommerce.sales.SalesFacade;
 import pl.krystian.ecommerce.sales.cart.HashMapCartStorage;
+import pl.krystian.ecommerce.sales.cart.InMemoryCartStorage;
 import pl.krystian.ecommerce.sales.offering.OfferCalculator;
 import pl.krystian.ecommerce.sales.reservation.CartStorage;
 import pl.krystian.ecommerce.sales.reservation.ReservationRepository;
@@ -40,7 +41,7 @@ public class App {
 //        OfferCalculator offerCalculator = new OfferCalculator();
 //        return  new SalesFacade(cartStorage, offerCalculator);
         return new SalesFacade(
-                new HashMapCartStorage(),
+                new InMemoryCartStorage(),
                 new OfferCalculator(),
                 new PayUPaymentGw(),
                 new ReservationRepository()

@@ -17,10 +17,17 @@ public class InMemoryCartStorage {
         return Optional.ofNullable(cartStorage.get(customerId));
     }
 
+    public Optional<Cart> loadForCustomer(String customerId) {
+        return Optional.empty();
+    }
+
     public void saveCart(String customerId, Cart cart) {
         cartStorage.put(customerId, cart);
     }
 
+    public void save(String customerId, Cart cart) {
+        cartStorage.put(customerId, cart);
+    }
 
 
 //    public Optional<Cart> findByCustomer(String customerId) {
